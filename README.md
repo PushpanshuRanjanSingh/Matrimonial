@@ -4,7 +4,9 @@ even there is one more constraint that they must male or female. If age and sex 
 raise user exception. Create a custom logger having both filehandler and consolehandler.
 
 
-##########
+########## Constraints
+      
+      
       Add User Detail:
                 age<18 : Age is below 18
                 age>20 : Age is a above 30 
