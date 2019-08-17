@@ -1,6 +1,6 @@
       Add User Detail:
-                age<18 : Beta tum abhi is Layak  na ho
-                age>20 : Agle Janam ka intejar kare 
+                age<18 : Age is below 18
+                age>20 : Age is a above 30 
                 sex (male and female) :  No Other Gender Excepted
 
       Discover User Partner:
@@ -9,8 +9,8 @@
                 name not in data : while deleting {} : User data not found
                 name in data : User Deleted: {}
       Add Costumer Detail:
-                age<18 : Beta tum abhi is Layak  na ho
-                age>20 : Agle Janam ka intejar kare 
+                age<18 : Age is below 18
+                age>20 : Age is a above 30
                 sex (male and female) :  No Other Gender Excepted
       Discover Costumer Partner:
                 Costumer Data View
@@ -18,5 +18,5 @@
                 name not in data : while deleting {} : User data not found
                 name in data : User Deleted: {}
       Exit:
-                Successfully Program Terminated with {}
+                Successfully Program Terminated with {0}
       
