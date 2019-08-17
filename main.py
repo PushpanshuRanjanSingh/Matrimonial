@@ -22,6 +22,7 @@ fileHandler.setFormatter(formatter)
 logger.addHandler(consoleHandler)
 logger.addHandler(fileHandler)
 #############################End of Custom Logger###############################
+#Custom User_Exception
 class User_Exception(Exception):
     def __init__(self,msg):
         self.msg=msg
@@ -32,8 +33,6 @@ class User:
         self.age=age
         self.sex=sex
         self.mobNo=mobNo
-    def display(self):
-        print(f'Name : {self.name} \nAge : {self.age} \nSex : {self.sex} \nMobile : {self.mobNo} \n')
 
 class Costumer:
     def __init__(self,name,uid,sex,age,mobNo):
@@ -53,9 +52,9 @@ def addUser():
         try:
             age=int(input("Enter age 18-30 :"))
             if age <18:
-                raise User_Exception('*** Beta tum abhi is Layak  na ho !!!.{}'.format(name))
+                raise User_Exception('*** Age is below 18!!!.{}'.format(name))
             elif age>30:
-                raise User_Exception('*** Agle Janam ka intejar kare !!!.{}'.format(name))
+                raise User_Exception('*** Age is a above 30!!!.{}'.format(name))
         except User_Exception as msg:
             logger.info(msg)
             sys.exit(0)
@@ -95,9 +94,9 @@ def addCostumer():
         try:
             age=int(input("Enter age 18-30 :"))
             if age <18:
-                raise User_Exception('*** Beta tum abhi is Layak  na ho !!!.{}'.format(name))
+                raise User_Exception('*** Age is below 18!.{}'.format(name))
             elif age>30:
-                raise User_Exception('Agle Janam ka intejar kare !!!.{}'.format(name))
+                raise User_Exception('Age is above 30!.{}'.format(name))
         except User_Exception as msg:
             logger.info(msg)
             sys.exit(0)
@@ -201,15 +200,7 @@ def viewCostumer():
                     break
         print('-------------------------------------------')
 
-def CheckAdmin():
-    au=input('Enter Admin Password : ')
-    if au == 'admin':
-        pass
-    else:
-        logger.error('Authenticatin Error')
-        calling()
 def AdminMain():
-    CheckAdmin()
     while 1:
         try:
             choice=int(input("1. Add User Detail \n2. Discover User Partner \n3. Delete User's Detail \n4. Add Costumer Detail \n5. Discover Costumer Partner \n6. Delete Costumer's Detail\n0. Exit \n::::::::->  "))
@@ -237,7 +228,7 @@ def AdminMain():
 def CostumerMain():
     while True:
         print("\n\tCustomer Panel\n")
-        choice=int(input("1.Sign Up \t2.Sign In \n3.Delete Account \t0.Exit : "))
+        choice=int(input("1.Sign Up \t2.Sign In : "))
         if choice == 1:
             addCostumer()
         elif choice == 2:
@@ -271,11 +262,9 @@ def CostumerMain():
         elif choice == 3:
             username=input("Enter Your Username : ")
             delCostumer(username)
-        elif choice == 0:
-            logger.info('logout from Costumer')
-            break
         else:
             print("Invalid choice")
+            sys.exit(0)
 
 def UserMain():
     try:
@@ -302,6 +291,6 @@ def calling():
                 else:
                     print('Invalid option')
             except SystemExit as msg:
-                logger.info(msg)
+                logger.error(msg)
                 sys.exit(0)
 calling()
