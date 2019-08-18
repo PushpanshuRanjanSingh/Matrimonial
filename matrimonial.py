@@ -34,7 +34,7 @@ class User:
         self.sex=sex
         self.mobNo=mobNo
 
-class Costumer:
+class Customer:
     def __init__(self,name,uid,sex,age,mobNo):
         self.name=name
         self.uid=uid
@@ -48,7 +48,7 @@ class Costumer:
 def addUser():
     uList=[]
     try:
-        name=input("Enter Your Name :").lower()
+        name=input("Enter Your Name :").title()
         try:
             age=int(input("Enter age 18-30 :"))
             if age <18:
@@ -58,9 +58,9 @@ def addUser():
         except User_Exception as msg:
             logger.info(msg)
             sys.exit(0)
-        sex=input("Male or Female : ").lower()
+        sex=input("Male or Female : ").title()
         try:
-            if sex != 'male' and sex != 'female':
+            if sex != 'Male' and sex != 'Female':
                 raise User_Exception('* No Other Gender Excepted!!!')
         except User_Exception as msg:
             logger.info(msg)
@@ -86,10 +86,10 @@ def randomString(stringLength=10):
     lettersAndDigits = string.digits
     return ''.join(random.choice(lettersAndDigits) for i in range(stringLength)) 
         
-def addCostumer():
+def addCustomer():
     uList=[]
     try:
-        name=input("Enter Your Name :").lower()
+        name=input("Enter Your Name :").title()
         uid=name+randomString(3)
         try:
             age=int(input("Enter age 18-30 :"))
@@ -100,32 +100,32 @@ def addCostumer():
         except User_Exception as msg:
             logger.info(msg)
             sys.exit(0)
-        sex=input("Male or Female : ").lower()
+        sex=input("Male or Female : ").title()
         try:
-            if sex != 'male' and sex != 'female':
+            if sex != 'Male' and sex != 'Female':
                 raise User_Exception('\n* No Other Gender Excepted\n!!!')
         except User_Exception as msg:
             logger.info(msg)
             sys.exit(0)
         mobNo=int(input("Mobile Number: "))
-        x=Costumer(name,uid,sex,age,mobNo)
+        x=Customer(name,uid,sex,age,mobNo)
         try:
-            with open('costumerdata.pkl','rb') as f:
+            with open('customerdata.pkl','rb') as f:
                 uList=pickle.load(f)
-            with open('costumerdata.pkl','wb') as f:
+            with open('customerdata.pkl','wb') as f:
                 uList.append(x)
                 pickle.dump(uList,f)
-            logger.info('Costumer Deatil Entered : {} - {} - {} - {}'.format(name,uid,sex,age))
+            logger.info('Customer Deatil Entered : {} - {} - {} - {}'.format(name,uid,sex,age))
         except BaseException:
-            with open('costumerdata.pkl','wb') as f:
+            with open('customerdata.pkl','wb') as f:
                 uList.append(x)
                 pickle.dump(uList,f)
-                logger.info('Costumer Deatil Entered : {} -  {} - {} - {}'.format(name,uid,sex,age))
+                logger.info('Customer Deatil Entered : {} -  {} - {} - {}'.format(name,uid,sex,age))
     except BaseException as msg:
         logger.error('Invalid Format Error Code : {}'.format(msg))
 
 def delUser(delstring):
-    s=delstring.lower()
+    s=delstring.title()
     try:
         with open('userdata.pkl','rb') as f:
             uList=pickle.load(f)
@@ -145,22 +145,22 @@ def delUser(delstring):
     except BaseException as msg:
         logger.error(msg)
 
-def delCostumer(delstring):
-    s=delstring.lower()
+def delCustomer(delstring):
+    s=delstring.title()
     try:
-        with open('costumerdata.pkl','rb') as f:
+        with open('customerdata.pkl','rb') as f:
             uList=pickle.load(f)
             c=0
             len_uList=len(uList)
             for i in uList:
                 if s==i.uid:
                     del uList[c]
-                    logger.info('Costumer Deleted: {}'.format(s))
+                    logger.info('Customer Deleted: {}'.format(s))
                 c=c+1
             len_newuList=len(uList)
             if len_uList==len_newuList:
-                raise User_Exception('* while deleting {} : Costumer data not found'.format(s))
-        with open('costumerdata.pkl','wb') as f:
+                raise User_Exception('* while deleting {} : Customer data not found'.format(s))
+        with open('customerdata.pkl','wb') as f:
             pickle.dump(uList,f) 
     except User_Exception as msg:
         logger.error(msg)
@@ -184,11 +184,11 @@ def viewUsers():
                     break
         print('-------------------------------------------')
 
-def viewCostumer():
+def viewCustomer():
     try:
         sys.exit(0)
     except SystemExit:
-        with open('costumerdata.pkl','rb') as f:
+        with open('customerdata.pkl','rb') as f:
             print('\t--------------------------------\n\t|-------Discover Partner-------|\n\t--------------------------------')
             while True:
                 try:
@@ -196,14 +196,14 @@ def viewCostumer():
                     for i in loadedobj:
                         print(f'|{i.name}\t{i.uid}\t{i.age}\t{i.sex}\t{i.mobNo}|')
                 except EOFError:
-                    logger.info('Costumer Data View')
+                    logger.info('Customer Data View')
                     break
         print('-------------------------------------------')
 
 def AdminMain():
     while 1:
         try:
-            choice=int(input("1. Add User Detail \n2. Discover User Partner \n3. Delete User's Detail \n4. Add Costumer Detail \n5. Discover Costumer Partner \n6. Delete Costumer's Detail\n0. Exit \n::::::::->  "))
+            choice=int(input("1. Add User Detail \n2. Discover User Partner \n3. Delete User's Detail \n4. Add Customer Detail \n5. Discover Customer Partner \n6. Delete Customer's Detail\n0. Exit \n::::::::->  "))
             if choice == 1:
                 addUser()
             elif choice == 2:
@@ -212,12 +212,12 @@ def AdminMain():
                 delstring = input('Enter Name to delete : ')
                 delUser(delstring)
             elif choice == 4:
-                addCostumer()
+                addCustomer()
             elif choice == 5:
-                viewCostumer()
+                viewCustomer()
             elif choice == 6:
                 delstring = input('Enter Uid to delete : ')
-                delCostumer(delstring)
+                delCustomer(delstring)
             elif choice == 0:
                 sys.exit(0)
             else:
@@ -225,46 +225,53 @@ def AdminMain():
         except SystemExit as msg :
             logger.info('Successfully Admin returned with {}'.format(msg))
             break
-def CostumerMain():
+def CustomerMain():
+    uList = []
+    cList = []
     while True:
         print("\n\tCustomer Panel\n")
-        choice=int(input("1.Sign Up \t2.Sign In : "))
+        choice=int(input("1.Sign Up \t2.Sign In \n3.Delete Data \t0.Exit : "))
         if choice == 1:
-            addCostumer()
+            addCustomer()
         elif choice == 2:
             username=input("Enter Your Username : ")
             try:
-                with open('costumerdata.pkl','rb') as f:
-                    uList=pickle.load(f)
-                    for i in uList:
+                with open('Customerdata.pkl','rb') as f:
+                    cList=pickle.load(f)
+                    for i in cList:
                         if username==i.uid:
                             sexID=i.sex
-                            if sexID == 'male':
-                                x='male'
+                            if sexID == 'Male':
+                                x='Male'
                             else:
-                                x='female'
+                                x='Female'
                             logger.info("Welcome {} : {}".format(i.name,x))
                             print('1. Find Match \t2. Exit :')
+                            with open('userdata.pkl','rb') as f:
+                                uList=pickle.load(f)
+                            list1 = [i for i in uList if i in cList]
+                            list2 = [i for i in uList if i not in cList]
+                            list3 = [i for i in cList if i not in uList]
+                            newList = list1+list2+list3
                             opt=int(input('Enter Option : '))
                             if opt==1:
-                                for j in uList:
-                                    if x=='male':
-                                        if j.sex=='female':
+                                for j in newList:
+                                    if x=='Male':
+                                        if j.sex=='Female':
                                             print(f'|{j.name}\t{j.age}\t{j.sex}\t{j.mobNo}|')
-                                    elif x=='female':
-                                        if j.sex=='male':
+                                    elif x=='Female':
+                                        if j.sex=='Male':
                                             print(f'|{j.name}\t{j.age}\t{j.sex}\t{j.mobNo}|')
                             elif  opt==2:
-                                sys.exit(0)
+                                calling()
             except BaseException as msg:
                 logger.info(msg)
                 break
         elif choice == 3:
             username=input("Enter Your Username : ")
-            delCostumer(username)
-        else:
-            print("Invalid choice")
-            sys.exit(0)
+            delCustomer(username)
+        elif choice == 0:
+            calling()
 
 def UserMain():
     try:
@@ -279,11 +286,11 @@ def calling():
     except:
         while True:
             try:
-                c=int(input("1.User\n2.Costumer\n3.Admin\n0.Exit\n:::::::::->"))
+                c=int(input("1.User\n2.Customer\n3.Admin\n0.Exit\n:::::::::->"))
                 if c==1:
                     UserMain()
                 elif c==2:
-                    CostumerMain()
+                    CustomerMain()
                 elif c==3:
                     AdminMain()
                 elif c==0:
